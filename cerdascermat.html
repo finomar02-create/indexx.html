@@ -124,16 +124,26 @@
   <script>
     // --- Soal kuis (contoh 10 soal jenjang SMA) ---
     const QUESTIONS = [
-      {q: 'Dalam biologi, organel sel yang bertanggung jawab untuk fotosintesis pada tumbuhan adalah...', a:['Mitokondria','Kloroplas','Ribosom','Badang Golgi'], correct:1, category:'Biologi'},
-      {q: 'Nilai dari 2sin(30°) + 3cos(60°) adalah...', a:['2','2.5','1.5','3'], correct:2, category:'Matematika'},
-      {q: 'Apa nama periode dalam sejarah Indonesia saat terjadi Proklamasi Kemerdekaan?', a:['Pendudukan Jepang','Zaman Hindia Belanda','Perang Diponegoro','Masa Orde Lama'], correct:0, category:'Sejarah'},
-      {q: 'Dalam bahasa Inggris, arti dari kalimat: "He has been studying for three hours" adalah...', a:['Dia belajar tiga jam yang lalu','Dia sedang belajar tiga jam','Dia telah belajar selama tiga jam','Dia akan belajar tiga jam'], correct:2, category:'Bahasa Inggris'},
-      {q: 'Manakah dari pernyataan berikut tentang sistem peredaran darah manusia yang benar?', a:['Vena membawa darah dari jantung','Atrium memompa darah keluar ke seluruh tubuh','Aorta adalah arteri terbesar yang membawa darah dari jantung ke tubuh','Ginjal memompa darah ke jantung'], correct:2, category:'Biologi'},
-      {q: 'Jika f(x)=2x^2 - 4x + 1, maka f(3) = ?', a:['7','11','13','5'], correct:0, category:'Matematika'},
-      {q: 'Salah satu penyebab runtuhnya Majapahit adalah...', a:['Datangnya bangsa Portugis','Perpecahan internal dan serangan-pemberontakan','Invasi Mongol','Letusan gunung berapi besar'], correct:1, category:'Sejarah'},
-      {q: 'Choose the correct passive voice form of: "They will finish the project tomorrow."', a:['The project will be finished by them tomorrow.','The project will have been finished tomorrow.','The project will be finished tomorrow.','The project is finished tomorrow.'], correct:2, category:'Bahasa Inggris'},
-      {q: 'Hukum Newton yang menyatakan "Setiap aksi selalu menimbulkan reaksi yang sama besar dan berlawanan arah" adalah hukum nomor...', a:['1','2','3','0'], correct:2, category:'Fisika'},
-      {q: 'Manakah berikut ini contoh metamorfosis sempurna?', a:['Belalang','Kupu-kupu','Cacing tanah','Ikan koi'], correct:1, category:'Biologi'}
+      {q:'Dalam biologi, organel sel yang bertanggung jawab untuk fotosintesis pada tumbuhan adalah...',a:['Mitokondria','Kloroplas','Ribosom','Badan Golgi'],correct:1,category:'Biologi'},
+      {q:'Nilai dari 2sin(30°) + 3cos(60°) adalah...',a:['2','2.5','1.5','3'],correct:2,category:'Matematika'},
+      {q:'Proklamasi Kemerdekaan Indonesia terjadi pada tanggal...',a:['17 Agustus 1945','20 Mei 1908','1 Juni 1945','10 November 1945'],correct:0,category:'Sejarah'},
+      {q:'Arti kalimat: "He has been studying for three hours" adalah...',a:['Dia belajar tiga jam yang lalu','Dia sedang belajar tiga jam','Dia telah belajar selama tiga jam','Dia akan belajar tiga jam'],correct:2,category:'Bahasa Inggris'},
+      {q:'Pernyataan yang benar tentang sistem peredaran darah manusia adalah...',a:['Vena membawa darah dari jantung','Atrium memompa darah ke tubuh','Aorta adalah arteri terbesar','Darah biru adalah darah kotor'],correct:2,category:'Biologi'},
+      {q:'Jika f(x) = 2x² - 4x + 1, maka f(3) = ...',a:['7','11','13','5'],correct:0,category:'Matematika'},
+      {q:'Salah satu penyebab runtuhnya Majapahit adalah...',a:['Invasi Mongol','Kedatangan Portugis','Perpecahan internal','Wabah penyakit'],correct:2,category:'Sejarah'},
+      {q:'Passive voice dari: "They will finish the project tomorrow" adalah...',a:['The project will be finished by them tomorrow.','The project will have been finished tomorrow.','The project will be finished tomorrow.','The project is finished tomorrow.'],correct:2,category:'Bahasa Inggris'},
+      {q:'Hukum Newton tentang aksi-reaksi adalah hukum nomor...',a:['1','2','3','0'],correct:2,category:'Fisika'},
+      {q:'Metamorfosis sempurna terjadi pada...',a:['Belalang','Kupu-kupu','Cacing tanah','Tokek'],correct:1,category:'Biologi'},
+      {q:'Unsur kimia dengan nomor atom 6 adalah...',a:['Oksigen','Karbon','Nitrogen','Helium'],correct:1,category:'Kimia'},
+      {q:'Tokoh yang dikenal sebagai Bapak Ekonomi Indonesia adalah...',a:['Moh. Hatta','Ir. Soekarno','Tan Malaka','Sutomo'],correct:0,category:'Ekonomi'},
+      {q:'Teks pidato yang bertujuan mengajak disebut...',a:['Persuasif','Eksposisi','Deskripsi','Narasi'],correct:0,category:'Bahasa Indonesia'},
+      {q:'Planet terbesar di tata surya adalah...',a:['Bumi','Saturnus','Jupiter','Uranus'],correct:2,category:'Astronomi'},
+      {q:'Dalam fisika, usaha (work) dihitung dengan rumus...',a:['W = F/d','W = F × s','W = m × a','W = P × t'],correct:1,category:'Fisika'},
+      {q:'Virus pertama yang berhasil dikristalkan adalah...',a:['Influenza','TBC','HIV','TMV'],correct:3,category:'Biologi'},
+      {q:'Puisi lama yang memiliki pola pantun adalah...',a:['Gurindam','Seloka','Syair','Pantun'],correct:3,category:'Sastra'},
+      {q:'Bentuk pemerintahan Indonesia adalah...',a:['Monarki','Kesultanan','Republik','Imperium'],correct:2,category:'PPKn'},
+      {q:'Sinonim kata "integritas" adalah...',a:['Kejujuran','Ambisi','Kreativitas','Kecepatan'],correct:0,category:'Bahasa Indonesia'},
+      {q:'Bilangan 0,75 jika ditulis dalam bentuk pecahan adalah...',a:['3/4','2/3','4/5','7/10'],correct:0,category:'Matematika'}
     ];
 
     // Config
