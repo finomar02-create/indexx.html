@@ -1,0 +1,121 @@
+const quizData = [
+    {q:"Apa nama kota metropolitan terbesar di Jepang yang menjadi pusat ekonomi dunia?", 
+     o:["Tokyo","Osaka","Kyoto","Yokohama","Nagoya"], a:"Tokyo"},
+
+    {q:"Unsur kimia dengan simbol 'O' berfungsi utama dalam proses respirasi makhluk hidup. Unsur tersebut adalah?", 
+     o:["Oksigen","Osmium","Oganesson","Oksida","Ozon"], a:"Oksigen"},
+
+    {q:"Planet yang memiliki ukuran terbesar sekaligus memiliki jumlah satelit alami terbanyak adalah?", 
+     o:["Jupiter","Saturnus","Neptunus","Uranus","Mars"], a:"Jupiter"},
+
+    {q:"Gunung tertinggi di dunia yang berada di Pegunungan Himalaya adalah?", 
+     o:["Everest","K2","Lhotse","Makalu","Annapurna"], a:"Everest"},
+
+    {q:"Proklamasi Kemerdekaan Indonesia dibacakan pada tahun berapa?", 
+     o:["1945","1940","1950","1935","1965"], a:"1945"},
+
+    {q:"Hewan tercepat di darat yang mampu berlari hingga 112 km/jam adalah?", 
+     o:["Cheetah","Singa","Kuda","Serigala","Macan"], a:"Cheetah"},
+
+    {q:"Unsur kimia dengan simbol Na dikenal sebagai?", 
+     o:["Natrium","Nitrogen","Neon","Nikel","Nobelium"], a:"Natrium"},
+
+    {q:"Benua terbesar berdasarkan luas wilayah adalah?", 
+     o:["Asia","Afrika","Amerika","Eropa","Australia"], a:"Asia"},
+
+    {q:"Palung terdalam di dunia yang berada di Samudra Pasifik adalah?", 
+     o:["Palung Mariana","Palung Tonga","Palung Filipina","Palung Kuril","Palung Sunda"], a:"Palung Mariana"},
+
+    {q:"Siapa ilmuwan yang mengemukakan teori relativitas?", 
+     o:["Albert Einstein","Isaac Newton","Nikola Tesla","Thomas Edison","Charles Darwin"], a:"Albert Einstein"},
+
+    {q:"Apa mata uang resmi negara Amerika Serikat?", 
+     o:["Dolar","Euro","Pound","Yen","Peso"], a:"Dolar"},
+
+    {q:"Presiden pertama Republik Indonesia adalah?", 
+     o:["Soekarno","Soeharto","B.J. Habibie","Megawati","Gus Dur"], a:"Soekarno"},
+
+    {q:"Bahasa resmi yang digunakan oleh negara Brasil adalah?", 
+     o:["Portugis","Spanyol","Prancis","Italia","Inggris"], a:"Portugis"},
+
+    {q:"Hewan terbesar yang pernah hidup di bumi saat ini adalah?", 
+     o:["Paus Biru","Gajah Afrika","Orca","Hiu Paus","Dinosaurus"], a:"Paus Biru"},
+
+    {q:"Satuan internasional (SI) untuk besaran gaya adalah?", 
+     o:["Newton","Joule","Watt","Ohm","Pascal"], a:"Newton"},
+
+    {q:"Proses tumbuhan membuat makanan sendiri dengan bantuan cahaya matahari disebut?", 
+     o:["Fotosintesis","Respirasi","Fermentasi","Destilasi","Osmosis"], a:"Fotosintesis"},
+
+    {q:"Negara dengan jumlah penduduk terbanyak di dunia adalah?", 
+     o:["Tiongkok","India","Amerika Serikat","Indonesia","Rusia"], a:"Tiongkok"},
+
+    {q:"Pulau terbesar di wilayah Indonesia berdasarkan luasnya adalah?", 
+     o:["Kalimantan","Sumatra","Papua","Sulawesi","Jawa"], a:"Kalimantan"},
+
+    {q:"Logam yang paling ringan pada tabel periodik adalah?", 
+     o:["Litium","Magnesium","Aluminium","Sodium","Kalium"], a:"Litium"},
+
+    {q:"Taj Mahal, salah satu keajaiban dunia, terletak di negara?", 
+     o:["India","Pakistan","Iran","Bangladesh","Turki"], a:"India"},
+
+    {q:"Kota dengan populasi paling padat di dunia saat ini adalah?", 
+     o:["Tokyo","Mumbai","Jakarta","Seoul","Shanghai"], a:"Tokyo"},
+
+    {q:"Hewan pemakan daging disebut sebagai?", 
+     o:["Karnivora","Herbivora","Omnivora","Insektivora","Detritivora"], a:"Karnivora"},
+
+    {q:"Alat untuk mengukur suhu suatu benda atau lingkungan disebut?", 
+     o:["Termometer","Barometer","Higrometer","Altimeter","Anemometer"], a:"Termometer"},
+
+    {q:"Candi Borobudur yang merupakan peninggalan Buddha berada di daerah?", 
+     o:["Magelang","Klaten","Malang","Bogor","Solo"], a:"Magelang"},
+
+    {q:"Penemu lampu pijar modern adalah?", 
+     o:["Thomas Edison","Albert Einstein","Alexander Bell","Nikola Tesla","Michael Faraday"], a:"Thomas Edison"},
+
+    {q:"Rumah adat masyarakat Toraja di Sulawesi Selatan dikenal dengan nama?", 
+     o:["Tongkonan","Joglo","Gadang","Honai","Limas"], a:"Tongkonan"},
+
+    {q:"Gas yang berfungsi melindungi bumi dari radiasi ultraviolet adalah?", 
+     o:["Ozon","Hidrogen","Nitrogen","Karbon Dioksida","Helium"], a:"Ozon"},
+
+    {q:"Benua terkecil berdasarkan luas wilayah adalah?", 
+     o:["Australia","Eropa","Asia","Antartika","Afrika"], a:"Australia"},
+
+    {q:"Gunung berapi tertinggi di Pulau Jawa dan aktif hingga kini adalah?", 
+     o:["Semeru","Merapi","Sindoro","Slamet","Argopuro"], a:"Semeru"},
+
+    {q:"Perubahan wujud air menjadi uap akibat pemanasan disebut?", 
+     o:["Evaporasi","Kondensasi","Sublimasi","Presipitasi","Difusi"], a:"Evaporasi"},
+
+    {q:"Atom yang memiliki muatan listrik disebut?", 
+     o:["Ion","Isotop","Kation","Anion","Radikal"], a:"Ion"},
+
+    {q:"Tahun kabisat memiliki jumlah hari sebanyak?", 
+     o:["366 hari","365 hari","364 hari","360 hari","370 hari"], a:"366 hari"},
+
+    {q:"Sistem tulisan kuno yang digunakan oleh bangsa Maya dikenal dengan?", 
+     o:["Hieroglif","Piktograf","Sanskerta","Rongorongo","Cuneiform"], a:"Hieroglif"},
+
+    {q:"Kerajaan Hindu pertama di Indonesia adalah?", 
+     o:["Kutai","Majapahit","Sriwijaya","Tarumanegara","Mataram"], a:"Kutai"},
+
+    {q:"Hewan yang secara alami paling tidak menyukai air adalah?", 
+     o:["Kucing","Anjing","Kelinci","Ayam","Tikus"], a:"Kucing"},
+
+    {q:"Alat untuk mengukur tekanan udara disebut?", 
+     o:["Barometer","Termometer","Manometer","Altimeter","Higrometer"], a:"Barometer"},
+
+    {q:"Contoh hewan amfibi adalah?", 
+     o:["Katak","Ayam","Ular","Kuda","Burung"], a:"Katak"},
+
+    {q:"Gunung berapi terbesar di dunia berdasarkan volume adalah?", 
+     o:["Mauna Loa","Tambora","Krakatau","Fuji","Etna"], a:"Mauna Loa"},
+
+    {q:"Komponen utama penyusun matahari adalah?", 
+     o:["Hidrogen","Helium","Oksigen","Karbon","Nitrogen"], a:"Hidrogen"},
+
+    {q:"Negara penghasil kopi terbesar di dunia adalah?", 
+     o:["Brasil","Vietnam","Kolombia","Ethiopia","Indonesia"], a:"Brasil"}
+];
