@@ -18,18 +18,15 @@
 
     .container {
         width: 100%;
-        max-width: 650px;
+        max-width: 700px;
         background: #11182f;
         padding: 25px;
         border-radius: 18px;
         box-shadow: 0 0 25px rgba(0,0,0,0.4);
     }
 
-    h1 {
+    h1, h2 {
         text-align: center;
-        margin-bottom: 15px;
-        font-size: 28px;
-        letter-spacing: 1px;
     }
 
     .question-box {
@@ -38,7 +35,6 @@
         border-radius: 15px;
         margin-bottom: 20px;
         font-size: 18px;
-        line-height: 1.4;
         min-height: 90px;
     }
 
@@ -55,23 +51,15 @@
         color: white;
         transition: 0.25s;
     }
-
     .answers button:hover {
         background: #2e4482;
         transform: scale(1.02);
     }
 
-    .correct {
-        background: #1fa94a !important;
-        color: white;
-    }
+    .correct { background: #1fa94a !important; }
+    .wrong { background: #d62839 !important; }
 
-    .wrong {
-        background: #d62839 !important;
-        color: white;
-    }
-
-    #nextBtn {
+    #nextBtn, #saveBtn {
         margin-top: 18px;
         width: 100%;
         padding: 14px;
@@ -84,17 +72,23 @@
         display: none;
     }
 
-    #nextBtn:hover {
-        background: #6e7ff5;
-    }
-
-    #scoreBox {
+    #scoreBox, #leaderboard {
         display: none;
         text-align: center;
-        font-size: 22px;
         padding: 20px;
         background: #1b264a;
         border-radius: 15px;
+        margin-top: 15px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #444;
     }
 </style>
 </head>
@@ -104,25 +98,31 @@
     <h1>Kuis Cerdas Cermat SMA</h1>
 
     <div id="questionBox" class="question-box">Loading...</div>
-
     <div class="answers" id="answerButtons"></div>
-
     <button id="nextBtn" onclick="nextQuestion()">Soal Selanjutnya</button>
 
     <div id="scoreBox"></div>
+
+    <div id="leaderboard">
+        <h2>Leaderboard</h2>
+        <table id="leaderTable">
+            <tr><th>Peringkat</th><th>Nama</th><th>Skor</th></tr>
+        </table>
+    </div>
 </div>
 
-<!-- SUARA BENAR -->
+<!-- Suara Benar -->
 <audio id="correctSound">
-    <source src="data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA..." type="audio/mp3">
+    <source src="data:audio/mp3;base64,SUARA-BENAR" type="audio/mp3">
 </audio>
 
-<!-- SUARA SALAH -->
+<!-- Suara Salah -->
 <audio id="wrongSound">
-    <source src="data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACA..." type="audio/mp3">
+    <source src="data:audio/mp3;base64,SUARA-SALAH" type="audio/mp3">
 </audio>
 
 <script>
+// ================= SOAL ==================
 const questions = [
     { q: "1. Proklamasi Kemerdekaan Indonesia dibacakan pada tanggal…", a: ["17 Agustus 1945","16 Agustus 1945","18 Agustus 1945","20 Agustus 1945"], c: 0 },
     { q: "2. Hasil dari 12 × 15 adalah…", a: ["120","150","180","210"], c: 2 },
@@ -130,22 +130,24 @@ const questions = [
     { q: "4. Planet terbesar di Tata Surya adalah…", a: ["Bumi","Mars","Jupiter","Saturnus"], c: 2 },
     { q: "5. Tokoh perumus Pancasila adalah…", a: ["Soekarno","Hatta","Sjahrir","Tan Malaka"], c: 0 },
     { q: "6. Rumus luas segitiga adalah…", a: ["a × t","1/2 × a × t","a + t","2 × a × t"], c: 1 },
-    { q: "7. Ibu kota Provinsi Jawa Barat adalah…", a: ["Bandung","Bogor","Bekasi","Depok"], c: 0 },
+    { q: "7. Ibukota Jawa Barat adalah…", a: ["Bandung","Bogor","Bekasi","Depok"], c: 0 },
     { q: "8. Hewan pemakan tumbuhan disebut…", a: ["Karnivora","Omnivora","Herbivora","Insektivora"], c: 2 },
-    { q: "9. Penulis novel *Laskar Pelangi* adalah…", a: ["Andrea Hirata","Tere Liye","Habiburrahman El Shirazy","Dewi Lestari"], c: 0 },
+    { q: "9. Penulis *Laskar Pelangi* adalah…", a: ["Andrea Hirata","Tere Liye","Habiburrahman","Dewi Lestari"], c: 0 },
     { q: "10. Gaya diukur dengan satuan…", a: ["Newton","Joule","Watt","Meter"], c: 0 },
+
     { q: "11. Bentuk pemerintahan Indonesia adalah…", a: ["Kerajaan","Republik","Federasi","Monarki"], c: 1 },
-    { q: "12. Ibukota negara Jepang adalah…", a: ["Osaka","Kyoto","Tokyo","Nagoya"], c: 2 },
-    { q: "13. Benua terbesar di dunia adalah…", a: ["Afrika","Asia","Eropa","Australia"], c: 1 },
+    { q: "12. Ibukota Jepang adalah…", a: ["Osaka","Kyoto","Tokyo","Nagoya"], c: 2 },
+    { q: "13. Benua terbesar adalah…", a: ["Afrika","Asia","Eropa","Australia"], c: 1 },
     { q: "14. Rumus kimia air adalah…", a: ["CO2","H2O","O2","H2"], c: 1 },
-    { q: "15. Penemu lampu pijar adalah…", a: ["Albert Einstein","Alexander Graham Bell","Thomas Alva Edison","Newton"], c: 2 },
-    { q: "16. Bahasa pemrograman untuk membuat website adalah…", a: ["HTML","Python","Java","C++"], c: 0 },
+    { q: "15. Penemu lampu pijar adalah…", a: ["Einstein","Bell","Edison","Newton"], c: 2 },
+    { q: "16. Bahasa dasar website adalah…", a: ["HTML","Python","Java","C++"], c: 0 },
     { q: "17. Alat pernapasan ikan adalah…", a: ["Paru–paru","Trakea","Insang","Kulit"], c: 2 },
-    { q: "18. Lambang negara Indonesia adalah…", a: ["Burung Elang","Garuda","Rajawali","Perkutut"], c: 1 },
-    { q: "19. Candi Borobudur terletak di provinsi…", a: ["Jawa Barat","Jawa Timur","DI Yogyakarta","Jawa Tengah"], c: 3 },
-    { q: "20. Alat untuk mengukur suhu adalah…", a: ["Barometer","Termometer","Higrometer","Altimeter"], c: 1 }
+    { q: "18. Lambang negara Indonesia adalah…", a: ["Elang","Garuda","Rajawali","Perkutut"], c: 1 },
+    { q: "19. Candi Borobudur terletak di…", a: ["Jawa Barat","Jawa Timur","DIY","Jawa Tengah"], c: 3 },
+    { q: "20. Alat ukur suhu adalah…", a: ["Barometer","Termometer","Higrometer","Altimeter"], c: 1 }
 ];
 
+// ================= VARIABEL ==================
 let index = 0;
 let score = 0;
 
@@ -153,12 +155,15 @@ const questionBox = document.getElementById("questionBox");
 const answerButtons = document.getElementById("answerButtons");
 const nextBtn = document.getElementById("nextBtn");
 const scoreBox = document.getElementById("scoreBox");
+const leaderboardBox = document.getElementById("leaderboard");
+const table = document.getElementById("leaderTable");
 
 const correctSound = document.getElementById("correctSound");
 const wrongSound = document.getElementById("wrongSound");
 
 loadQuestion();
 
+// ================= TAMPILKAN SOAL ==================
 function loadQuestion() {
     const q = questions[index];
     questionBox.textContent = q.q;
@@ -172,6 +177,7 @@ function loadQuestion() {
     });
 }
 
+// ================= CEK JAWABAN ==================
 function checkAnswer(i) {
     const correct = questions[index].c;
     const buttons = answerButtons.querySelectorAll("button");
@@ -182,17 +188,13 @@ function checkAnswer(i) {
         if (idx === i && i !== correct) btn.classList.add("wrong");
     });
 
-    // SUARA
-    if (i === correct) {
-        correctSound.play();
-        score++;
-    } else {
-        wrongSound.play();
-    }
+    if (i === correct) { correctSound.play(); score++; }
+    else { wrongSound.play(); }
 
     nextBtn.style.display = "block";
 }
 
+// ================= NEXT ==================
 function nextQuestion() {
     index++;
     nextBtn.style.display = "none";
@@ -205,16 +207,47 @@ function nextQuestion() {
     loadQuestion();
 }
 
+// ================= FINISH ==================
 function finishQuiz() {
     questionBox.style.display = "none";
     answerButtons.style.display = "none";
     nextBtn.style.display = "none";
 
-    scoreBox.style.display = "block";
-    scoreBox.innerHTML = `
-        <h2>Kuis Selesai!</h2>
-        <p>Skor kamu: <b>${score} / ${questions.length}</b></p>
+    const name = prompt("Masukkan nama kamu untuk Leaderboard:");
+
+    saveToLeaderboard(name, score);
+    showLeaderboard();
+}
+
+// ================= SAVE TO LOCAL STORAGE ==================
+function saveToLeaderboard(name, score) {
+    let data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    data.push({ name, score });
+    data.sort((a,b) => b.score - a.score);
+
+    localStorage.setItem("leaderboard", JSON.stringify(data));
+}
+
+// ================= DISPLAY LEADERBOARD ==================
+function showLeaderboard() {
+    leaderboardBox.style.display = "block";
+
+    const data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    table.innerHTML = `
+        <tr><th>Peringkat</th><th>Nama</th><th>Skor</th></tr>
     `;
+
+    data.forEach((item, i) => {
+        table.innerHTML += `
+            <tr>
+                <td>${i + 1}</td>
+                <td>${item.name}</td>
+                <td>${item.score}</td>
+            </tr>
+        `;
+    });
 }
 </script>
 
