@@ -7,6 +7,8 @@
   <style>
     :root {
       --muted: rgba(255, 255, 255, 0.7);
+      --correct: #00b894;
+      --incorrect: #e17055;
     }
     
     body {
@@ -81,6 +83,8 @@
         margin: 8px 0;
         cursor: pointer;
         transition: 0.3s;
+        position: relative;
+        padding-left: 45px;
     }
 
     .option:hover {
@@ -89,6 +93,39 @@
 
     .selected {
         background: rgba(108, 92, 231, 0.5);
+    }
+
+    .correct {
+        background: rgba(0, 184, 148, 0.3);
+        border-left: 4px solid var(--correct);
+    }
+
+    .incorrect {
+        background: rgba(225, 112, 85, 0.3);
+        border-left: 4px solid var(--incorrect);
+    }
+
+    .option-indicator {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .correct .option-indicator {
+        background-color: var(--correct);
+    }
+
+    .incorrect .option-indicator {
+        background-color: var(--incorrect);
     }
 
     .level-selector {
@@ -176,6 +213,27 @@
       font-weight: 600;
     }
 
+    .feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+
+    .feedback.correct {
+      background: rgba(0, 184, 148, 0.2);
+      color: var(--correct);
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: rgba(225, 112, 85, 0.2);
+      color: var(--incorrect);
+      display: block;
+    }
+
     @keyframes fadeIn {
         from {opacity: 0; transform: translateY(20px);}    
         to {opacity: 1; transform: translateY(0);}  
@@ -184,6 +242,12 @@
     @keyframes pop {
         from { opacity: 0; transform: scale(0.96); }
         to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
   </style>
 </head>
@@ -231,6 +295,8 @@
             </div>
 
             <div class="options" id="options" style="margin-top:14px"></div>
+            
+            <div class="feedback" id="feedback"></div>
 
             <div class="footer">
               <div>
@@ -351,6 +417,7 @@
     // Config
     let timePerQuestion = 30; // detik default
     let currentLevel = 'sma'; // default level
+    let showFeedback = true; // Tampilkan indikator benar/salah
 
     // State
     let qIndex = 0;
@@ -358,6 +425,7 @@
     let timer = null;
     let timeLeft = timePerQuestion;
     let answers = [];
+    let answered = []; // Menyimpan status apakah soal sudah dijawab
 
     // Elements
     const startPanel = document.getElementById('startPanel');
@@ -384,6 +452,7 @@
     const retryBtn = document.getElementById('retryBtn');
     const homeBtn = document.getElementById('homeBtn');
     const levelButtons = document.querySelectorAll('.level-btn');
+    const feedbackEl = document.getElementById('feedback');
 
     // Initialize
     function init(){
@@ -429,6 +498,7 @@
       qIndex = 0; 
       score = 0; 
       answers = Array(QUESTIONS[currentLevel].length).fill(null);
+      answered = Array(QUESTIONS[currentLevel].length).fill(false);
       document.getElementById('score').textContent = score;
       changeQuestion(0);
     }
@@ -453,27 +523,86 @@
       questionEl.textContent = Q.q;
       categoryEl.textContent = 'Kategori: ' + Q.category;
       optionsEl.innerHTML = '';
+      
+      // Reset feedback
+      feedbackEl.className = 'feedback';
+      feedbackEl.textContent = '';
+      
       Q.a.forEach((opt,i)=>{
         const div = document.createElement('div');
         div.className = 'option';
         div.tabIndex = 0;
-        div.textContent = opt;
+        
+        // Tambah indikator (A, B, C, D)
+        const indicator = document.createElement('div');
+        indicator.className = 'option-indicator';
+        indicator.textContent = String.fromCharCode(65 + i); // A, B, C, D
+        
+        div.appendChild(indicator);
+        div.appendChild(document.createTextNode(opt));
+        
         div.dataset.index = i;
-        if(answers[qIndex] === i) div.classList.add('selected');
+        
+        // Jika sudah dijawab, tampilkan status benar/salah
+        if (answered[qIndex]) {
+          if (i === Q.correct) {
+            div.classList.add('correct');
+          } else if (i === answers[qIndex] && i !== Q.correct) {
+            div.classList.add('incorrect');
+          }
+        } else if (answers[qIndex] === i) {
+          div.classList.add('selected');
+        }
+        
         div.addEventListener('click', ()=>selectOption(i));
         div.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') selectOption(i); });
         optionsEl.appendChild(div);
       });
+      
       document.getElementById('qIndex').textContent = qIndex+1;
       document.getElementById('qTotal').textContent = QUESTIONS[currentLevel].length;
       updateProgress();
     }
 
     function selectOption(optIndex){
+      if (answered[qIndex]) return; // Jangan izinkan mengubah jawaban setelah dikirim
+      
       answers[qIndex] = optIndex;
       // update UI
       [...optionsEl.children].forEach(ch => ch.classList.remove('selected'));
       optionsEl.children[optIndex].classList.add('selected');
+      
+      // Tampilkan feedback langsung jika diaktifkan
+      if (showFeedback) {
+        showAnswerFeedback();
+      }
+    }
+
+    function showAnswerFeedback() {
+      const Q = QUESTIONS[currentLevel][qIndex];
+      const selectedOption = answers[qIndex];
+      
+      // Tandai soal sudah dijawab
+      answered[qIndex] = true;
+      
+      // Tampilkan indikator benar/salah
+      [...optionsEl.children].forEach((ch, i) => {
+        ch.classList.remove('selected', 'correct', 'incorrect');
+        if (i === Q.correct) {
+          ch.classList.add('correct');
+        } else if (i === selectedOption && i !== Q.correct) {
+          ch.classList.add('incorrect');
+        }
+      });
+      
+      // Tampilkan pesan feedback
+      feedbackEl.textContent = (selectedOption === Q.correct) 
+        ? 'Jawaban Anda Benar!' 
+        : 'Jawaban Anda Salah!';
+      feedbackEl.className = `feedback ${selectedOption === Q.correct ? 'correct' : 'incorrect'}`;
+      
+      // Update skor
+      updateProgress();
     }
 
     function startTimer(){
@@ -499,9 +628,17 @@
     }
 
     function autoNext(){
-      // jika belum menjawab, biarkan null (gagal)
-      if(qIndex < QUESTIONS[currentLevel].length - 1){ changeQuestion(qIndex+1); }
-      else { finishQuiz(); }
+      // Jika belum menjawab, tandai sebagai salah
+      if (answers[qIndex] === null && !answered[qIndex]) {
+        answered[qIndex] = true;
+      }
+      
+      if(qIndex < QUESTIONS[currentLevel].length - 1){ 
+        changeQuestion(qIndex+1); 
+      }
+      else { 
+        finishQuiz(); 
+      }
     }
 
     function updateProgress(){
@@ -510,13 +647,15 @@
 
     function calculateScore(){
       let s = 0;
-      answers.forEach((ans,i)=>{ if(ans === QUESTIONS[currentLevel][i].correct) s += 10; });
+      answers.forEach((ans,i)=>{ 
+        if(ans === QUESTIONS[currentLevel][i].correct) s += 10; 
+      });
       return s;
     }
 
     function finishQuiz(){
       stopTimer();
-      // calculate score
+      // Hitung skor akhir
       score = calculateScore();
       document.getElementById('score').textContent = score;
       quizWrap.style.display = 'none';
@@ -563,6 +702,7 @@
       qIndex=0; 
       score=0; 
       answers = []; 
+      answered = [];
       document.getElementById('score').textContent = 0; 
     }
 
