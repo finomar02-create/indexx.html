@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Quiz Cerdas Cermat - Jenjang SMA</title>
+  <title>Quiz Cerdas Cermat - Semua Jenjang</title>
   <style>
     :root {
-      --muted: rgba(255, 255, 255, 0.6);
+      --muted: rgba(255, 255, 255, 0.7);
     }
     
     body {
@@ -38,7 +38,7 @@
     }
 
     button {
-        padding: 12px 20px;
+        padding: 12px;
         border: none;
         border-radius: 12px;
         background: #6c5ce7;
@@ -54,12 +54,16 @@
         transform: scale(1.03);
     }
 
-    .btn.secondary {
-        background: rgba(255, 255, 255, 0.15);
+    .btn {
+      width: 100%;
     }
 
-    .btn.secondary:hover {
-        background: rgba(255, 255, 255, 0.25);
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
     }
 
     .question-box {
@@ -77,105 +81,99 @@
         margin: 8px 0;
         cursor: pointer;
         transition: 0.3s;
-        position: relative;
     }
 
     .option:hover {
         background: rgba(255,255,255,0.25);
     }
 
-    .option.selected {
-        background: rgba(108, 92, 231, 0.3);
+    .selected {
+        background: rgba(108, 92, 231, 0.5);
     }
 
-    .option.correct {
-        background: rgba(46, 204, 113, 0.3);
+    .level-selector {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
     }
 
-    .option.incorrect {
-        background: rgba(231, 76, 60, 0.3);
+    .level-btn {
+      flex: 1;
+      max-width: 150px;
+      padding: 15px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: center;
     }
 
-    .option.correct::after {
-        content: " ✓";
-        color: #2ecc71;
-        font-weight: bold;
-        position: absolute;
-        right: 10px;
+    .level-btn:hover {
+      background: rgba(108, 92, 231, 0.5);
     }
 
-    .option.incorrect::after {
-        content: " ✗";
-        color: #e74c3c;
-        font-weight: bold;
-        position: absolute;
-        right: 10px;
+    .level-btn.active {
+      background: #6c5ce7;
     }
 
     .meta {
-        color: var(--muted);
-        font-size: 0.9em;
+      color: var(--muted);
+      font-size: 14px;
     }
 
-    .center {
-        display: flex;
-        justify-content: center;
-    }
-
-    .qcard {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 20px;
-        border-radius: 15px;
-        margin-top: 20px;
-    }
-
-    .question {
-        font-size: 1.2em;
-        margin-bottom: 10px;
-    }
-
-    .timer {
-        font-weight: bold;
-    }
-
-    .progress {
-        display: block;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-        overflow: hidden;
-    }
-
-    .progress i {
-        display: block;
-        height: 100%;
-        background: #6c5ce7;
-        width: 0%;
-        transition: width 1s linear;
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
 
     .footer {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        flex-wrap: wrap;
-        gap: 10px;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      flex-wrap: wrap;
     }
 
-    .leaderboard table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
+    .progress {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
     }
 
-    .leaderboard th, .leaderboard td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    .progress i {
+      display: block;
+      height: 100%;
+      background: #6c5ce7;
+      width: 0%;
+      transition: width 1s linear;
     }
 
-    .leaderboard th {
-        font-weight: bold;
+    .qcard {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      font-weight: 600;
     }
 
     @keyframes fadeIn {
@@ -187,31 +185,6 @@
         from { opacity: 0; transform: scale(0.96); }
         to { opacity: 1; transform: scale(1); }
     }
-
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    @media (max-width: 600px) {
-        header {
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .footer {
-            flex-direction: column;
-        }
-        
-        .footer > div {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-    }
   </style>
 </head>
 <body>
@@ -219,8 +192,8 @@
     <div class="card">
       <header>
         <div>
-          <h1>Quiz Cerdas Cermat - Jenjang SMA</h1>
-          <div class="meta">10 soal | Pilihan ganda | Waktu tiap soal 30 detik</div>
+          <h1>Quiz Cerdas Cermat</h1>
+          <div class="meta">Pilih jenjang untuk memulai kuis</div>
         </div>
         <div class="center">
           <div style="text-align:right">
@@ -232,10 +205,15 @@
 
       <main>
         <section class="start-panel" id="startPanel">
-          <p style="max-width:640px;margin:0 auto 18px;color:var(--muted)">Selamat datang! Klik tombol <strong>Mulai Kuis</strong> untuk memulai. Anda akan mendapatkan 1 menit per soal (default 30 detik, dapat diubah di pengaturan). Hasil tersimpan di leaderboard lokal.</p>
+          <div class="level-selector">
+            <div class="level-btn" data-level="sd">SD</div>
+            <div class="level-btn" data-level="smp">SMP</div>
+            <div class="level-btn" data-level="sma">SMA</div>
+          </div>
+          <p style="max-width:640px;margin:0 auto 18px;color:var(--muted)">Selamat datang! Pilih jenjang pendidikan, lalu klik tombol <strong>Mulai Kuis</strong> untuk memulai. Anda akan mendapatkan 30 detik per soal (dapat diubah di pengaturan). Hasil tersimpan di leaderboard lokal.</p>
           <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
             <button class="btn" id="startBtn">Mulai Kuis</button>
-            <button class="btn secondary" id="settingsBtn">Pengaturan</button>
+            <button class="btn btn-secondary" id="settingsBtn">Pengaturan</button>
           </div>
         </section>
 
@@ -256,8 +234,8 @@
 
             <div class="footer">
               <div>
-                <button class="btn secondary" id="prevBtn">Sebelumnya</button>
-                <button class="btn secondary" id="nextBtn">Berikutnya</button>
+                <button class="btn btn-secondary" id="prevBtn">Sebelumnya</button>
+                <button class="btn btn-secondary" id="nextBtn">Berikutnya</button>
               </div>
               <div>
                 <button class="btn" id="submitBtn">Kirim Jawaban</button>
@@ -280,60 +258,106 @@
           <div class="leaderboard" id="leaderboardWrap">
             <h3 style="margin-bottom:6px">Leaderboard (Lokal)</h3>
             <table id="leaderboardTable">
-              <thead><tr><th>Rank</th><th>Nama</th><th>Skor</th></tr></thead>
+              <thead><tr><th>Rank</th><th>Nama</th><th>Skor</th><th>Jenjang</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
 
           <div style="margin-top:14px;display:flex;gap:8px;justify-content:center">
-            <button class="btn secondary" id="retryBtn">Ulangi Kuis</button>
-            <button class="btn secondary" id="homeBtn">Kembali ke Beranda</button>
+            <button class="btn btn-secondary" id="retryBtn">Ulangi Kuis</button>
+            <button class="btn btn-secondary" id="homeBtn">Kembali ke Beranda</button>
           </div>
         </section>
 
       </main>
 
-      <footer style="text-align:center;margin-top:20px;color:var(--muted);font-size:0.9em">
-        Dibuat untuk latihan cerdas cermat SMA • Farid &amp; Alfino SMA Negeri Kabuh
+      <footer>
+        Dibuat untuk latihan cerdas cermat • Farid &amp; Alfino SMA Negeri Kabuh
       </footer>
     </div>
   </div>
 
   <script>
-    // --- Soal kuis (contoh 10 soal jenjang SMA) ---
-    const QUESTIONS = [
-      {q:'Dalam biologi, organel sel yang bertanggung jawab untuk fotosintesis pada tumbuhan adalah...',a:['Mitokondria','Kloroplas','Ribosom','Badan Golgi'],correct:1,category:'Biologi'},
-      {q:'Nilai dari 2sin(30°) + 3cos(60°) adalah...',a:['2','2.5','1.5','3'],correct:2,category:'Matematika'},
-      {q:'Proklamasi Kemerdekaan Indonesia terjadi pada tanggal...',a:['17 Agustus 1945','20 Mei 1908','1 Juni 1945','10 November 1945'],correct:0,category:'Sejarah'},
-      {q:'Arti kalimat: "He has been studying for three hours" adalah...',a:['Dia belajar tiga jam yang lalu','Dia sedang belajar tiga jam','Dia telah belajar selama tiga jam','Dia akan belajar tiga jam'],correct:2,category:'Bahasa Inggris'},
-      {q:'Pernyataan yang benar tentang sistem peredaran darah manusia adalah...',a:['Vena membawa darah dari jantung','Atrium memompa darah ke tubuh','Aorta adalah arteri terbesar','Darah biru adalah darah kotor'],correct:2,category:'Biologi'},
-      {q:'Jika f(x) = 2x² - 4x + 1, maka f(3) = ...',a:['7','11','13','5'],correct:0,category:'Matematika'},
-      {q:'Salah satu penyebab runtuhnya Kerajaan Majapahit adalah...',a:['Invasi Mongol','Kedatangan Portugis','Perpecahan internal','Wabah penyakit'],correct:2,category:'Sejarah'},
-      {q:'Passive voice dari: "They will finish the project tomorrow" adalah...',a:['The project will be finished by them tomorrow.','The project will have been finished tomorrow.','The project will be finished tomorrow.','The project is finished tomorrow.'],correct:2,category:'Bahasa Inggris'},
-      {q:'Hukum Newton tentang aksi-reaksi adalah hukum nomor...',a:['1','2','3','0'],correct:2,category:'Fisika'},
-      {q:'Metamorfosis sempurna terjadi pada...',a:['Belalang','Kupu-kupu','Cacing tanah','Tokek'],correct:1,category:'Biologi'},
-      {q:'Unsur kimia dengan nomor atom 6 adalah...',a:['Oksigen','Karbon','Nitrogen','Helium'],correct:1,category:'Kimia'},
-      {q:'Tokoh yang dikenal sebagai Bapak Ekonomi Indonesia adalah...',a:['Moh. Hatta','Ir. Soekarno','Tan Malaka','Sutomo'],correct:0,category:'Ekonomi'},
-      {q:'Teks pidato yang bertujuan mengajak disebut...',a:['Persuasif','Eksposisi','Deskripsi','Narasi'],correct:0,category:'Bahasa Indonesia'},
-      {q:'Planet terbesar di tata surya adalah...',a:['Bumi','Saturnus','Jupiter','Uranus'],correct:2,category:'Astronomi'},
-      {q:'Dalam fisika, usaha (work) dihitung dengan rumus...',a:['W = F/d','W = F × s','W = m × a','W = P × t'],correct:1,category:'Fisika'},
-      {q:'Virus pertama yang berhasil dikristalkan adalah...',a:['Influenza','TBC','HIV','TMV'],correct:3,category:'Biologi'},
-      {q:'Puisi lama yang memiliki pola pantun adalah...',a:['Gurindam','Seloka','Syair','Pantun'],correct:3,category:'Sastra'},
-      {q:'Bentuk pemerintahan Indonesia adalah...',a:['Monarki','Kesultanan','Republik','Imperium'],correct:2,category:'PPKn'},
-      {q:'Sinonim kata "integritas" adalah...',a:['Kejujuran','Ambisi','Kreativitas','Kecepatan'],correct:0,category:'Bahasa Indonesia'},
-      {q:'Bilangan 0,75 jika ditulis dalam bentuk pecahan adalah...',a:['3/4','2/3','4/5','7/10'],correct:0,category:'Matematika'}
-    ];
+    // --- Soal kuis untuk semua jenjang ---
+    const QUESTIONS = {
+      sd: [
+        {q:'Ibu kota Indonesia adalah...',a:['Jakarta','Bandung','Surabaya','Medan'],correct:0,category:'Pengetahuan Umum'},
+        {q:'2 + 3 × 4 = ...',a:['20','14','24','12'],correct:1,category:'Matematika'},
+        {q:'Hewan yang berkembang biak dengan cara bertelur disebut...',a:['Ovipar','Vivipar','Ovovivipar','Mamalia'],correct:0,category:'IPA'},
+        {q:'Lambang bilangan dari tujuh puluh delapan adalah...',a:['78','87','708','780'],correct:0,category:'Matematika'},
+        {q:'Planet yang dijuluki planet merah adalah...',a:['Venus','Mars','Jupiter','Saturnus'],correct:1,category:'IPA'},
+        {q:'Sungai terpanjang di Indonesia adalah...',a:['Sungai Kapuas','Sungai Mahakam','Sungai Musi','Sungai Barito'],correct:0,category:'Geografi'},
+        {q:'Pancasila sila ketiga adalah...',a:['Ketuhanan Yang Maha Esa','Kemanusiaan yang adil dan beradab','Persatuan Indonesia','Keadilan sosial bagi seluruh rakyat Indonesia'],correct:2,category:'PPKn'},
+        {q:'Hasil dari 15² adalah...',a:['30','125','225','250'],correct:2,category:'Matematika'},
+        {q:'Alat pernapasan pada ikan adalah...',a:['Paru-paru','Insang','Trakea','Kulit'],correct:1,category:'IPA'},
+        {q:'Penemu bola lampu adalah...',a:['Alexander Graham Bell','Thomas Alva Edison','Albert Einstein','James Watt'],correct:1,category:'Sejarah'},
+        {q:'Bilangan prima antara 10 dan 20 adalah...',a:['11, 13, 17, 19','11, 13, 15, 17','12, 14, 16, 18','13, 15, 17, 19'],correct:0,category:'Matematika'},
+        {q:'Pahlawan nasional dari Aceh yang melawan Belanda adalah...',a:['Pangeran Diponegoro','Cut Nyak Dien','Sultan Hasanuddin','Tuanku Imam Bonjol'],correct:1,category:'Sejarah'},
+        {q:'Alat musik tradisional Jawa yang dimainkan dengan dipetik adalah...',a:['Gamelan','Angklung','Sasando','Kecapi'],correct:3,category:'Seni Budaya'},
+        {q:'Bentuk pecahan desimal dari 3/4 adalah...',a:['0.25','0.5','0.75','1.25'],correct:2,category:'Matematika'},
+        {q:'Negara tetangga Indonesia di sebelah utara adalah...',a:['Australia','Malaysia','Papua Nugini','Timor Leste'],correct:1,category:'Geografi'},
+        {q:'Hewan yang termasuk kelompok herbivora adalah...',a:['Singa','Harimau','Kambing','Elang'],correct:2,category:'IPA'},
+        {q:'Tanggal berapa Indonesia merdeka?',a:['17 Agustus 1945','27 Desember 1949','10 November 1945','1 Juni 1945'],correct:0,category:'Sejarah'},
+        {q:'Kalimat yang menggunakan huruf kapital dengan benar adalah...',a:['saya pergi ke sekolah','Ibu pergi ke pasar','ayah membaca Koran','kakak bermain Bola'],correct:1,category:'Bahasa Indonesia'},
+        {q:'Hasil dari 7/8 + 1/4 adalah...',a:['1','1 1/8','1 1/4','1 1/2'],correct:1,category:'Matematika'},
+        {q:'Benda yang termasuk konduktor panas adalah...',a:['Kayu','Plastik','Karet','Besi'],correct:3,category:'IPA'}
+      ],
+      smp: [
+        {q:'Rumus kimia untuk air adalah...',a:['H₂O','CO₂','NaCl','O₂'],correct:0,category:'Kimia'},
+        {q:'Nilai x dari persamaan 2x + 5 = 15 adalah...',a:['5','10','7.5','8'],correct:0,category:'Matematika'},
+        {q:'Tokoh proklamator Indonesia adalah...',a:['Soekarno-Hatta','Soekarno-Sjahrir','Hatta-Sjahrir','Soekarno-Supomo'],correct:0,category:'Sejarah'},
+        {q:'Arti kata "diligent" dalam bahasa Indonesia adalah...',a:['Malas','Rajin','Cerdas','Bodoh'],correct:1,category:'Bahasa Inggris'},
+        {q:'Organ pernapasan manusia yang berfungsi sebagai tempat pertukaran oksigen dan karbon dioksida adalah...',a:['Trakea','Bronkus','Alveolus','Diafragma'],correct:2,category:'Biologi'},
+        {q:'Jika a=3 dan b=4, maka nilai dari a² + b² adalah...',a:['7','12','25','5'],correct:2,category:'Matematika'},
+        {q:'Kerajaan Hindu pertama di Indonesia adalah...',a:['Sriwijaya','Majapahit','Kutai','Tarumanegara'],correct:2,category:'Sejarah'},
+        {q:'Passive voice dari "She reads a book" adalah...',a:['A book is read by her','A book was read by her','A book read by her','A book is reading by her'],correct:0,category:'Bahasa Inggris'},
+        {q:'Hukum Newton I juga dikenal sebagai hukum...',a:['Aksi-reaksi','Kelembaman','Gaya dan percepatan','Gravitasi'],correct:1,category:'Fisika'},
+        {q:'Proses fotosintesis pada tumbuhan menghasilkan...',a:['Oksigen dan air','Oksigen dan glukosa','Karbon dioksida dan air','Karbon dioksida dan glukosa'],correct:1,category:'Biologi'},
+        {q:'Unsur dengan simbol Fe adalah...',a:['Perak','Besi','Fosfor','Fluor'],correct:1,category:'Kimia'},
+        {q:'Bapak Koperasi Indonesia adalah...',a:['Mohammad Hatta','Soekarno','Ki Hajar Dewantara','Sutan Syahrir'],correct:0,category:'Ekonomi'},
+        {q:'Teks yang menceritakan kembali peristiwa atau pengalaman disebut...',a:['Deskripsi','Eksposisi','Narasi','Argumentasi'],correct:2,category:'Bahasa Indonesia'},
+        {q:'Planet terdekat dengan matahari adalah...',a:['Venus','Bumi','Mercury','Mars'],correct:2,category:'Astronomi'},
+        {q:'Rumus untuk menghitung gaya adalah...',a:['F = m/a','F = m × a','F = m + a','F = m - a'],correct:1,category:'Fisika'},
+        {q:'Penyakit yang disebabkan oleh virus adalah...',a:['TBC','Malaria','Demam berdarah','Diare'],correct:2,category:'Biologi'},
+        {q:'Puisi yang terdiri dari 4 baris dengan rima a-b-a-b disebut...',a:['Soneta','Pantun','Gurindam','Syair'],correct:1,category:'Sastra'},
+        {q:'Lembaga negara yang berwenang mengubah UUD 1945 adalah...',a:['Presiden','DPR','MPR','MA'],correct:2,category:'PPKn'},
+        {q:'Sinonim kata "antusias" adalah...',a:['Acuh','Bersemangat','Malas','Ragu'],correct:1,category:'Bahasa Indonesia'},
+        {q:'Bentuk sederhana dari 12/18 adalah...',a:['3/4','2/3','4/6','6/9'],correct:1,category:'Matematika'}
+      ],
+      sma: [
+        {q:'Dalam biologi, organel sel yang bertanggung jawab untuk fotosintesis pada tumbuhan adalah...',a:['Mitokondria','Kloroplas','Ribosom','Badan Golgi'],correct:1,category:'Biologi'},
+        {q:'Nilai dari 2sin(30°) + 3cos(60°) adalah...',a:['2','2.5','1.5','3'],correct:2,category:'Matematika'},
+        {q:'Proklamasi Kemerdekaan Indonesia terjadi pada tanggal...',a:['17 Agustus 1945','20 Mei 1908','1 Juni 1945','10 November 1945'],correct:0,category:'Sejarah'},
+        {q:'Arti kalimat: "He has been studying for three hours" adalah...',a:['Dia belajar tiga jam yang lalu','Dia sedang belajar tiga jam','Dia telah belajar selama tiga jam','Dia akan belajar tiga jam'],correct:2,category:'Bahasa Inggris'},
+        {q:'Pernyataan yang benar tentang sistem peredaran darah manusia adalah...',a:['Vena membawa darah dari jantung','Atrium memompa darah ke tubuh','Aorta adalah arteri terbesar','Darah biru adalah darah kotor'],correct:2,category:'Biologi'},
+        {q:'Jika f(x) = 2x² - 4x + 1, maka f(3) = ...',a:['7','11','13','5'],correct:0,category:'Matematika'},
+        {q:'Salah satu penyebab runtuhnya Kerajaan Majapahit adalah...',a:['Invasi Mongol','Kedatangan Portugis','Perpecahan internal','Wabah penyakit'],correct:2,category:'Sejarah'},
+        {q:'Passive voice dari: "They will finish the project tomorrow" adalah...',a:['The project will be finished by them tomorrow.','The project will have been finished tomorrow.','The project will be finished tomorrow.','The project is finished tomorrow.'],correct:2,category:'Bahasa Inggris'},
+        {q:'Hukum Newton tentang aksi-reaksi adalah hukum nomor...',a:['1','2','3','0'],correct:2,category:'Fisika'},
+        {q:'Metamorfosis sempurna terjadi pada...',a:['Belalang','Kupu-kupu','Cacing tanah','Tokek'],correct:1,category:'Biologi'},
+        {q:'Unsur kimia dengan nomor atom 6 adalah...',a:['Oksigen','Karbon','Nitrogen','Helium'],correct:1,category:'Kimia'},
+        {q:'Tokoh yang dikenal sebagai Bapak Ekonomi Indonesia adalah...',a:['Moh. Hatta','Ir. Soekarno','Tan Malaka','Sutomo'],correct:0,category:'Ekonomi'},
+        {q:'Teks pidato yang bertujuan mengajak disebut...',a:['Persuasif','Eksposisi','Deskripsi','Narasi'],correct:0,category:'Bahasa Indonesia'},
+        {q:'Planet terbesar di tata surya adalah...',a:['Bumi','Saturnus','Jupiter','Uranus'],correct:2,category:'Astronomi'},
+        {q:'Dalam fisika, usaha (work) dihitung dengan rumus...',a:['W = F/d','W = F × s','W = m × a','W = P × t'],correct:1,category:'Fisika'},
+        {q:'Virus pertama yang berhasil dikristalkan adalah...',a:['Influenza','TBC','HIV','TMV'],correct:3,category:'Biologi'},
+        {q:'Puisi lama yang memiliki pola pantun adalah...',a:['Gurindam','Seloka','Syair','Pantun'],correct:3,category:'Sastra'},
+        {q:'Bentuk pemerintahan Indonesia adalah...',a:['Monarki','Kesultanan','Republik','Imperium'],correct:2,category:'PPKn'},
+        {q:'Sinonim kata "integritas" adalah...',a:['Kejujuran','Ambisi','Kreativitas','Kecepatan'],correct:0,category:'Bahasa Indonesia'},
+        {q:'Bilangan 0,75 jika ditulis dalam bentuk pecahan adalah...',a:['3/4','2/3','4/5','7/10'],correct:0,category:'Matematika'}
+      ]
+    };
 
     // Config
     let timePerQuestion = 30; // detik default
+    let currentLevel = 'sma'; // default level
 
     // State
     let qIndex = 0;
     let score = 0;
     let timer = null;
     let timeLeft = timePerQuestion;
-    let answers = Array(QUESTIONS.length).fill(null);
-    let answered = Array(QUESTIONS.length).fill(false);
+    let answers = [];
 
     // Elements
     const startPanel = document.getElementById('startPanel');
@@ -359,10 +383,11 @@
     const leaderboardTableBody = document.querySelector('#leaderboardTable tbody');
     const retryBtn = document.getElementById('retryBtn');
     const homeBtn = document.getElementById('homeBtn');
+    const levelButtons = document.querySelectorAll('.level-btn');
 
     // Initialize
     function init(){
-      document.getElementById('qTotal').textContent = QUESTIONS.length;
+      document.getElementById('qTotal').textContent = 0;
       document.getElementById('qIndex').textContent = 0;
       attachEvents();
       renderLeaderboard();
@@ -381,16 +406,29 @@
       saveScoreBtn.addEventListener('click', saveScore);
       retryBtn.addEventListener('click', ()=>{resetAll();startQuiz();});
       homeBtn.addEventListener('click', ()=>{resetAll();showStart();});
+      
+      // Level selector events
+      levelButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          levelButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentLevel = btn.dataset.level;
+        });
+      });
     }
 
     function startQuiz(){
+      if (!currentLevel) {
+        alert('Pilih jenjang terlebih dahulu!');
+        return;
+      }
+      
       startPanel.style.display = 'none';
       resultSection.style.display = 'none';
       quizWrap.style.display = 'block';
       qIndex = 0; 
       score = 0; 
-      answers = Array(QUESTIONS.length).fill(null);
-      answered = Array(QUESTIONS.length).fill(false);
+      answers = Array(QUESTIONS[currentLevel].length).fill(null);
       document.getElementById('score').textContent = score;
       changeQuestion(0);
     }
@@ -403,7 +441,7 @@
 
     function changeQuestion(index){
       if(index<0) index = 0;
-      if(index>=QUESTIONS.length) index = QUESTIONS.length-1;
+      if(index>=QUESTIONS[currentLevel].length) index = QUESTIONS[currentLevel].length-1;
       stopTimer();
       qIndex = index;
       renderQuestion();
@@ -411,65 +449,31 @@
     }
 
     function renderQuestion(){
-      const Q = QUESTIONS[qIndex];
+      const Q = QUESTIONS[currentLevel][qIndex];
       questionEl.textContent = Q.q;
       categoryEl.textContent = 'Kategori: ' + Q.category;
       optionsEl.innerHTML = '';
-      
       Q.a.forEach((opt,i)=>{
         const div = document.createElement('div');
         div.className = 'option';
         div.tabIndex = 0;
         div.textContent = opt;
         div.dataset.index = i;
-        
-        // Tampilkan status jawaban jika sudah dijawab
-        if(answered[qIndex]) {
-          if(i === Q.correct) {
-            div.classList.add('correct');
-          } else if(i === answers[qIndex] && i !== Q.correct) {
-            div.classList.add('incorrect');
-          }
-        } else if(answers[qIndex] === i) {
-          div.classList.add('selected');
-        }
-        
+        if(answers[qIndex] === i) div.classList.add('selected');
         div.addEventListener('click', ()=>selectOption(i));
         div.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') selectOption(i); });
         optionsEl.appendChild(div);
       });
-      
       document.getElementById('qIndex').textContent = qIndex+1;
-      document.getElementById('qTotal').textContent = QUESTIONS.length;
+      document.getElementById('qTotal').textContent = QUESTIONS[currentLevel].length;
       updateProgress();
     }
 
     function selectOption(optIndex){
       answers[qIndex] = optIndex;
-      answered[qIndex] = true;
-      
       // update UI
-      [...optionsEl.children].forEach(ch => {
-        ch.classList.remove('selected');
-        const idx = parseInt(ch.dataset.index);
-        if(idx === QUESTIONS[qIndex].correct) {
-          ch.classList.add('correct');
-        } else if(idx === optIndex && idx !== QUESTIONS[qIndex].correct) {
-          ch.classList.add('incorrect');
-        }
-      });
-      
-      // Update skor
-      updateProgress();
-      
-      // Auto lanjut ke soal berikutnya setelah 1 detik
-      setTimeout(() => {
-        if(qIndex < QUESTIONS.length - 1) {
-          changeQuestion(qIndex+1);
-        } else {
-          finishQuiz();
-        }
-      }, 1000);
+      [...optionsEl.children].forEach(ch => ch.classList.remove('selected'));
+      optionsEl.children[optIndex].classList.add('selected');
     }
 
     function startTimer(){
@@ -490,30 +494,23 @@
     function stopTimer(){ if(timer) clearInterval(timer); timer = null; }
 
     function updateProgressBar(){
-      const pct = (timeLeft/timePerQuestion)*100;
+      const pct = ((timePerQuestion - timeLeft)/timePerQuestion)*100;
       progressBar.style.width = pct + '%';
     }
 
     function autoNext(){
       // jika belum menjawab, biarkan null (gagal)
-      if(qIndex < QUESTIONS.length - 1){ 
-        changeQuestion(qIndex+1); 
-      }
-      else { 
-        finishQuiz(); 
-      }
+      if(qIndex < QUESTIONS[currentLevel].length - 1){ changeQuestion(qIndex+1); }
+      else { finishQuiz(); }
     }
 
     function updateProgress(){
-      score = calculateScore();
-      scoreEl.textContent = score;
+      scoreEl.textContent = calculateScore();
     }
 
     function calculateScore(){
       let s = 0;
-      answers.forEach((ans,i)=>{ 
-        if(ans === QUESTIONS[i].correct) s += 10; 
-      });
+      answers.forEach((ans,i)=>{ if(ans === QUESTIONS[currentLevel][i].correct) s += 10; });
       return s;
     }
 
@@ -525,13 +522,13 @@
       quizWrap.style.display = 'none';
       resultSection.style.display = 'block';
       resultTitle.textContent = `Skor Anda: ${score}`;
-      const correctCount = answers.reduce((acc,ans,i)=> acc + (ans===QUESTIONS[i].correct?1:0),0);
-      resultSummary.textContent = `Anda menjawab benar ${correctCount} dari ${QUESTIONS.length} soal.`;
+      const correctCount = answers.reduce((acc,ans,i)=> acc + (ans===QUESTIONS[currentLevel][i].correct?1:0),0);
+      resultSummary.textContent = `Anda menjawab benar ${correctCount} dari ${QUESTIONS[currentLevel].length} soal.`;
       renderLeaderboard();
     }
 
     // Leaderboard (localStorage)
-    const LB_KEY = 'cc_sma_leaderboard_v1';
+    const LB_KEY = 'cc_leaderboard_v2';
     function getLeaderboard(){
       try{ const raw = localStorage.getItem(LB_KEY); return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
     }
@@ -541,7 +538,7 @@
       const name = (playerNameInput.value || 'Anonim').trim();
       if(!name) return alert('Masukkan nama terlebih dahulu.');
       const list = getLeaderboard();
-      list.push({name,score:score,at:Date.now()});
+      list.push({name,score:score,level:currentLevel,at:Date.now()});
       list.sort((a,b)=>b.score - a.score || a.at - b.at);
       saveLeaderboard(list.slice(0,50));
       renderLeaderboard();
@@ -551,10 +548,10 @@
     function renderLeaderboard(){
       const list = getLeaderboard();
       leaderboardTableBody.innerHTML = '';
-      if(list.length === 0){ leaderboardTableBody.innerHTML = '<tr><td colspan="3" style="color:var(--muted)">Belum ada data.</td></tr>'; return; }
+      if(list.length === 0){ leaderboardTableBody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Belum ada data.</td></tr>'; return; }
       list.forEach((it,idx)=>{
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${idx+1}</td><td>${escapeHtml(it.name)}</td><td>${it.score}</td>`;
+        tr.innerHTML = `<td>${idx+1}</td><td>${escapeHtml(it.name)}</td><td>${it.score}</td><td>${it.level.toUpperCase()}</td>`;
         leaderboardTableBody.appendChild(tr);
       });
     }
@@ -565,8 +562,7 @@
       stopTimer(); 
       qIndex=0; 
       score=0; 
-      answers = Array(QUESTIONS.length).fill(null); 
-      answered = Array(QUESTIONS.length).fill(false);
+      answers = []; 
       document.getElementById('score').textContent = 0; 
     }
 
